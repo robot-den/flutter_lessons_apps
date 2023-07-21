@@ -1,7 +1,8 @@
+import 'package:crypto_rates/features/crypto_coins_list/bloc/crypto_coins_list_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:crypto_rates/repositories/crypto_coins/crypto_coins.dart';
-import 'package:crypto_rates/repositories/models/models.dart';
 import 'package:crypto_rates/features/crypto_coins_list/widgets/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 class CryptoCoinsListScreen extends StatefulWidget {
@@ -14,32 +15,43 @@ class CryptoCoinsListScreen extends StatefulWidget {
 }
 
 class _CryptoCoinsListScreenState extends State<CryptoCoinsListScreen> {
-  List<CryptoCoin> _cryptoCoinsList = [];
+  final _cryptoCoinsListBloc =
+      CryptoCoinsListBloc(GetIt.I<AbstractCryptoCoinsRepository>());
 
   @override
   void initState() {
-    _loadCryptoCoins();
+    _cryptoCoinsListBloc.add(LoadCryptoCoinsList());
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(widget.title)),
-      body: (_cryptoCoinsList.isEmpty)
-          ? const SizedBox(child: Center(child: CircularProgressIndicator()))
-          : ListView.separated(
-              padding: const EdgeInsets.only(top: 16),
-              separatorBuilder: (context, index) => const Divider(),
-              itemCount: _cryptoCoinsList.length,
-              itemBuilder: (context, i) =>
-                  CryptoCoinsListTile(coin: _cryptoCoinsList[i])),
-    );
-  }
+        appBar: AppBar(title: Text(widget.title)),
+        body: BlocBuilder<CryptoCoinsListBloc, CryptoCoinsListState>(
+          bloc: _cryptoCoinsListBloc,
+          builder: (context, state) {
+            if (state is CryptoCoinsListLoaded) {
+              return ListView.separated(
+                  padding: const EdgeInsets.only(top: 16),
+                  separatorBuilder: (context, index) => const Divider(),
+                  itemCount: state.cryptoCoinsList.length,
+                  itemBuilder: (context, i) =>
+                      CryptoCoinsListTile(coin: state.cryptoCoinsList[i]));
+            } else if (state is CryptoCoinsListLoadingFailed) {
+              return const Center(
+                  child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Currencies loading failed.'),
+                  Text('please try again later')
+                ],
+              ));
+            }
 
-  Future<void> _loadCryptoCoins() async {
-    _cryptoCoinsList =
-        await GetIt.I<AbstractCryptoCoinsRepository>().getCoinsList();
-    setState(() {});
+            return const SizedBox(
+                child: Center(child: CircularProgressIndicator()));
+          },
+        ));
   }
 }
