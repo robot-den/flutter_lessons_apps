@@ -1,11 +1,17 @@
 import 'package:crypto_rates/repositories/models/models.dart';
+import 'package:crypto_rates/repositories/crypto_coins/crypto_coins.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 
-class CryptoCoinsRepository {
+class CryptoCoinsRepository implements AbstractCryptoCoinsRepository {
+  CryptoCoinsRepository({required this.dio});
+
+  final Dio dio;
+
+  @override
   Future<List<CryptoCoin>> getCoinsList() async {
-    final response = await Dio().get(
-        'https://min-api.cryptocompare.com/data/pricemultifull?fsyms=BTC,ETH,BNB,DOGE&tsyms=USD');
+    final response = await dio.get(
+        'https://min-api.cryptocompare.com/data/pricemultifull?fsyms=BTC,ETH,BNB,DOGE,XRP,TRX,MATIC&tsyms=USD');
 
     debugPrint('rates are loaded: ${response.toString()}');
 
