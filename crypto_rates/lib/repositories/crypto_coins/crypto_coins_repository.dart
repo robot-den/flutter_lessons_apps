@@ -13,7 +13,7 @@ class CryptoCoinsRepository implements AbstractCryptoCoinsRepository {
     final response = await dio.get(
         'https://min-api.cryptocompare.com/data/pricemultifull?fsyms=BTC,ETH,BNB,DOGE,XRP,TRX,MATIC&tsyms=USD');
 
-    debugPrint('rates are loaded: ${response.toString()}');
+    debugPrint('CryptoCoinsRepository: rates are loaded');
 
     final data = response.data as Map<String, dynamic>;
     final dataRaw = data['RAW'] as Map<String, dynamic>;
