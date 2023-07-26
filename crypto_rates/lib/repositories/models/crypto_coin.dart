@@ -9,5 +9,5 @@ class CryptoCoin extends Equatable {
   final String imageUrl;
 
   @override
-  List<Object?> get props => [name, priceInUSD, imageUrl];
+  List<Object> get props => [name, priceInUSD, imageUrl];
 }
