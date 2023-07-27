@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 
 // This observer displays which routes were opened and closed in the application
-class LoggerObserver extends NavigatorObserver {
-  LoggerObserver(this.logger);
+class NavigatorLoggerObserver extends NavigatorObserver {
+  NavigatorLoggerObserver({required this.logger});
 
   final Logger logger;
 
@@ -23,7 +23,7 @@ class LoggerObserver extends NavigatorObserver {
 
   void _logRoute(Route route, {bool isPush = true}) {
     final messageBuffer = StringBuffer();
-    messageBuffer.write(isPush ? 'Open' : 'Close');
+    messageBuffer.write(isPush ? '⬜ Open' : '⬜ Close');
     messageBuffer.write(' route named ');
     messageBuffer.write(route.settings.name ?? 'null');
 

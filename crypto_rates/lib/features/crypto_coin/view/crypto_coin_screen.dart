@@ -89,8 +89,6 @@ class _CryptoCoinScreenState extends State<CryptoCoinScreen> {
               ),
             );
           } else if (state is CryptoCoinDetailedLoadingFailed) {
-            debugPrint(state.exception.toString());
-
             return Center(
                 child: Column(
               mainAxisAlignment: MainAxisAlignment.center,

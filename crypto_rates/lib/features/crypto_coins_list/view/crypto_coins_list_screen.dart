@@ -39,7 +39,6 @@ class _CryptoCoinsListScreenState extends State<CryptoCoinsListScreen> {
           child: BlocBuilder<CryptoCoinsListBloc, CryptoCoinsListState>(
             bloc: _cryptoCoinsListBloc,
             builder: (context, state) {
-              debugPrint('rebuild screen\n');
               if (state is CryptoCoinsListLoaded) {
                 return ListView.separated(
                     padding: const EdgeInsets.only(top: 16),

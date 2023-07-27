@@ -3,7 +3,7 @@ import 'package:crypto_rates/router/router.dart';
 import 'package:crypto_rates/theme/theme.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
-import 'features/observers/observers.dart';
+import 'features/middlewares/middlewares.dart';
 
 class CryptoRatesApp extends StatelessWidget {
   const CryptoRatesApp({super.key});
@@ -14,7 +14,7 @@ class CryptoRatesApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: darkTheme,
       routes: routes,
-      navigatorObservers: [LoggerObserver(GetIt.I<Logger>())],
+      navigatorObservers: [NavigatorLoggerObserver(logger: GetIt.I<Logger>())],
     );
   }
 }

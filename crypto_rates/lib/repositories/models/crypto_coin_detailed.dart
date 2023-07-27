@@ -1,7 +1,7 @@
 import 'package:crypto_rates/repositories/models/crypto_coin.dart';
 
 class CryptoCoinDetailed extends CryptoCoin {
-  CryptoCoinDetailed(
+  const CryptoCoinDetailed(
       {required super.name,
       required super.priceInUSD,
       required super.imageUrl,

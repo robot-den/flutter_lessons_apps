@@ -1,6 +1,5 @@
 import 'package:crypto_rates/repositories/models/models.dart';
 import 'package:crypto_rates/repositories/crypto_coins/crypto_coins.dart';
-import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 
 class CryptoCoinsRepository implements AbstractCryptoCoinsRepository {
@@ -12,7 +11,6 @@ class CryptoCoinsRepository implements AbstractCryptoCoinsRepository {
   Future<List<CryptoCoin>> getCoinsList() async {
     final response = await dio.get(
         'https://min-api.cryptocompare.com/data/pricemultifull?fsyms=BTC,ETH,BNB,DOGE,XRP,TRX,MATIC&tsyms=USD');
-    debugPrint('CryptoCoinsRepository: rates are loaded');
 
     final data = response.data as Map<String, dynamic>;
     final dataRaw = data['RAW'] as Map<String, dynamic>;
@@ -39,8 +37,6 @@ class CryptoCoinsRepository implements AbstractCryptoCoinsRepository {
     final String url =
         'https://min-api.cryptocompare.com/data/pricemultifull?fsyms=$currencyCode&tsyms=USD';
     final response = await dio.get(url);
-
-    debugPrint('CryptoCoinsRepository: details are loaded for $currencyCode');
 
     final data = response.data as Map<String, dynamic>;
     final dataRaw = data['RAW'] as Map<String, dynamic>;
