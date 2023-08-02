@@ -11,11 +11,10 @@ class CryptoCoinsListTile extends StatelessWidget {
     final theme = Theme.of(context);
 
     return ListTile(
-      leading: Image.network(
-        coin.details.fullImageUrl,
-        height: 48,
-        width: 48,
-      ),
+      leading: SizedBox(
+          width: 50,
+          height: 50,
+          child: Image.network(coin.details.fullImageUrl)),
       title: Text(
         coin.name,
         style: theme.textTheme.bodyMedium,
