@@ -18,22 +18,16 @@ class CryptoCoinsRepository implements AbstractCryptoCoinsRepository {
     final coinsList = dataRaw.entries.map((e) {
       final dataUSD =
           (e.value as Map<String, dynamic>)['USD'] as Map<String, dynamic>;
+      final details = CryptoCoinDetailed.fromJson(dataUSD);
 
-      double? priceInUSD = dataUSD['PRICE'];
-      priceInUSD ??= 0.0;
-      String imageUrl = dataUSD['IMAGEURL'].toString();
-
-      return CryptoCoin(
-          name: e.key,
-          priceInUSD: priceInUSD,
-          imageUrl: 'https://www.cryptocompare.com$imageUrl');
+      return CryptoCoin(name: e.key, details: details);
     }).toList();
 
     return coinsList;
   }
 
   @override
-  Future<CryptoCoinDetailed> getCoinDetails(String currencyCode) async {
+  Future<CryptoCoin> getCoinDetails(String currencyCode) async {
     final String url =
         'https://min-api.cryptocompare.com/data/pricemultifull?fsyms=$currencyCode&tsyms=USD';
     final response = await dio.get(url);
@@ -42,22 +36,11 @@ class CryptoCoinsRepository implements AbstractCryptoCoinsRepository {
     final dataRaw = data['RAW'] as Map<String, dynamic>;
     final coinData = dataRaw[currencyCode] as Map<String, dynamic>;
     final usdData = coinData['USD'] as Map<String, dynamic>;
+    final details = CryptoCoinDetailed.fromJson(usdData);
 
-    final price = usdData['PRICE'];
-    final imageUrl = usdData['IMAGEURL'];
-    final toSymbol = usdData['TOSYMBOL'];
-    final lastUpdate = usdData['LASTUPDATE'];
-    final hight24Hour = usdData['HIGH24HOUR'];
-    final low24Hours = usdData['LOW24HOUR'];
-
-    return CryptoCoinDetailed(
+    return CryptoCoin(
       name: currencyCode,
-      priceInUSD: price,
-      imageUrl: 'https://www.cryptocompare.com$imageUrl',
-      toSymbol: toSymbol,
-      lastUpdate: DateTime.fromMillisecondsSinceEpoch(lastUpdate),
-      hight24Hour: hight24Hour,
-      low24Hours: low24Hours,
+      details: details,
     );
   }
 }
