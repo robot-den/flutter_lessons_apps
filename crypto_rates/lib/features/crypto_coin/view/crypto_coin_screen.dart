@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:crypto_rates/features/crypto_coin/bloc/crypto_coin_detailed_bloc.dart';
 import 'package:crypto_rates/features/crypto_coin/widgets/widgets.dart';
+import 'package:crypto_rates/generated/l10n.dart';
 import 'package:crypto_rates/repositories/crypto_coins/crypto_coins.dart';
 import 'package:crypto_rates/repositories/models/models.dart';
 import 'package:flutter/material.dart';
@@ -75,12 +76,12 @@ class _CryptoCoinScreenState extends State<CryptoCoinScreen> {
                     child: Column(
                       children: [
                         _DataRow(
-                          title: 'High 24 Hour',
+                          title: S.of(context).high24Hour,
                           value: '\$${coinDetails.hight24Hour}',
                         ),
                         const SizedBox(height: 6),
                         _DataRow(
-                          title: 'Low 24 Hour',
+                          title: S.of(context).low24Hour,
                           value: '\$${coinDetails.low24Hours}',
                         ),
                       ],

@@ -1,6 +1,8 @@
+import 'package:crypto_rates/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:crypto_rates/router/router.dart';
 import 'package:crypto_rates/theme/theme.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
 import 'features/middlewares/middlewares.dart';
@@ -18,7 +20,14 @@ class _CryptoRatesAppState extends State<CryptoRatesApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      title: 'Flutter Demo',
+      localizationsDelegates: const [
+        S.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: S.delegate.supportedLocales,
+      title: 'Crypto dogs',
       theme: darkTheme,
       routerConfig: _appRouter.config(
         navigatorObservers: () => [

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:crypto_rates/features/crypto_coins_list/bloc/crypto_coins_list_bloc.dart';
+import 'package:crypto_rates/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:crypto_rates/repositories/crypto_coins/crypto_coins.dart';
 import 'package:crypto_rates/features/crypto_coins_list/widgets/widgets.dart';
@@ -11,8 +12,6 @@ import 'package:get_it/get_it.dart';
 @RoutePage()
 class CryptoCoinsListScreen extends StatefulWidget {
   const CryptoCoinsListScreen({super.key});
-
-  final String title = 'Crypto dogs';
 
   @override
   State<CryptoCoinsListScreen> createState() => _CryptoCoinsListScreenState();
@@ -31,7 +30,7 @@ class _CryptoCoinsListScreenState extends State<CryptoCoinsListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text(widget.title)),
+        appBar: AppBar(title: Text(S.of(context).app_title)),
         body: RefreshIndicator(
           onRefresh: () async {
             final completer = Completer();
