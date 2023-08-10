@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({
+    required this.renderQuestionsScreen,
     super.key,
   });
+
+  final void Function() renderQuestionsScreen;
 
   @override
   Widget build(BuildContext context) {
@@ -24,12 +27,12 @@ class HomeScreen extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           OutlinedButton(
-            onPressed: () {},
+            onPressed: renderQuestionsScreen,
             style: OutlinedButton.styleFrom(
               foregroundColor: Colors.white,
               side: const BorderSide(width: 0.2),
             ),
-            child: const Text('start'),
+            child: const Text('Start'),
           )
         ],
       ),

@@ -1,12 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:quiz/features/home/view/home_screen.dart';
+import 'package:quiz/features/questions/view/questions_screen.dart';
 
-class QuizApp extends StatelessWidget {
+class QuizApp extends StatefulWidget {
   const QuizApp({super.key});
 
-  // This widget is the root of your application.
+  @override
+  State<QuizApp> createState() => _QuizAppState();
+}
+
+class _QuizAppState extends State<QuizApp> {
+  String route = '/';
+
+  void renderQuestionsScreen() {
+    setState(() {
+      route = '/questions';
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    Widget screen;
+
+    switch (route) {
+      case '/':
+        screen = HomeScreen(renderQuestionsScreen: renderQuestionsScreen);
+      case '/questions':
+        screen = const QuestionsScreen();
+      default:
+        throw ('unhandled screen');
+    }
+
     return MaterialApp(
       home: Scaffold(
         body: Container(
@@ -19,7 +43,7 @@ class QuizApp extends StatelessWidget {
                     Color.fromARGB(255, 134, 26, 241)
                   ]),
             ),
-            child: const HomeScreen()),
+            child: screen),
       ),
     );
   }
