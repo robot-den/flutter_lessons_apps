@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:quiz/features/home/view/home_screen.dart';
 import 'package:quiz/features/questions/view/questions_screen.dart';
+import 'package:quiz/features/results/view/results_screen.dart';
+import 'package:quiz/repositories/questions/questions.dart';
 
 class QuizApp extends StatefulWidget {
   const QuizApp({super.key});
@@ -12,9 +14,9 @@ class QuizApp extends StatefulWidget {
 class _QuizAppState extends State<QuizApp> {
   String route = '/';
 
-  void renderQuestionsScreen() {
+  void navigateTo(String path) {
     setState(() {
-      route = '/questions';
+      route = path;
     });
   }
 
@@ -24,26 +26,36 @@ class _QuizAppState extends State<QuizApp> {
 
     switch (route) {
       case '/':
-        screen = HomeScreen(renderQuestionsScreen: renderQuestionsScreen);
+        screen = HomeScreen(navigateTo: navigateTo);
       case '/questions':
-        screen = const QuestionsScreen();
+        screen = QuestionsScreen(
+          navigateTo: navigateTo,
+          questions: questions,
+        );
+      case '/results':
+        screen = ResultsScreen(
+          navigateTo: navigateTo,
+          questions: questions,
+        );
       default:
-        throw ('unhandled screen');
+        throw ('unhandled route');
     }
 
     return MaterialApp(
       home: Scaffold(
         body: Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    Color.fromARGB(255, 241, 26, 65),
-                    Color.fromARGB(255, 134, 26, 241)
-                  ]),
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Color.fromARGB(255, 241, 26, 65),
+                Color.fromARGB(255, 134, 26, 241)
+              ],
             ),
-            child: screen),
+          ),
+          child: screen,
+        ),
       ),
     );
   }

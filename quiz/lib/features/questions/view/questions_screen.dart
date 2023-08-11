@@ -1,19 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:quiz/features/questions/widgets/answer_button.dart';
 import 'package:quiz/models/models.dart';
-import 'package:quiz/repositories/questions/questions.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class QuestionsScreen extends StatefulWidget {
-  const QuestionsScreen({super.key});
+  const QuestionsScreen({
+    super.key,
+    required this.navigateTo,
+    required this.questions,
+  });
+
+  final List<Question> questions;
+  final void Function(String path) navigateTo;
 
   @override
   State<QuestionsScreen> createState() => _QuestionsScreenState();
 }
 
 class _QuestionsScreenState extends State<QuestionsScreen> {
-  Question currentQuestion = questions[0];
+  int currentQuestionIndex = 0;
+
+  void onAnswerPressed(Question question, int answerId) {
+    question.selectedAnswerIndex = answerId;
+
+    if (currentQuestionIndex + 1 < widget.questions.length) {
+      setState(() {
+        currentQuestionIndex++;
+      });
+    } else {
+      widget.navigateTo('/results');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    Question currentQuestion = widget.questions[currentQuestionIndex];
+
     return Center(
       child: Container(
         margin: const EdgeInsets.all(30),
@@ -22,43 +44,23 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
           children: [
             Text(
               currentQuestion.text,
-              style: const TextStyle(fontSize: 16),
+              style: GoogleFonts.roboto(fontSize: 20),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 20),
             ...currentQuestion.shuffledAnswers().map(
               (answer) {
-                return AnswerButton(answer: answer, onPressed: () {});
+                return AnswerButton(
+                  answer: answer,
+                  onPressed: () {
+                    onAnswerPressed(currentQuestion, answer.id);
+                  },
+                );
               },
             ),
           ],
         ),
       ),
-    );
-  }
-}
-
-class AnswerButton extends StatelessWidget {
-  const AnswerButton({
-    super.key,
-    required this.answer,
-    required this.onPressed,
-  });
-
-  final Answer answer;
-  final void Function() onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.redAccent,
-        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        minimumSize: const Size.fromHeight(30),
-      ),
-      onPressed: onPressed,
-      child: Text(answer.text),
     );
   }
 }

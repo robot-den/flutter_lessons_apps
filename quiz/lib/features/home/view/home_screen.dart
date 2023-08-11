@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({
-    required this.renderQuestionsScreen,
+    required this.navigateTo,
     super.key,
   });
 
-  final void Function() renderQuestionsScreen;
+  final void Function(String path) navigateTo;
 
   @override
   Widget build(BuildContext context) {
@@ -20,14 +21,19 @@ class HomeScreen extends StatelessWidget {
             child: Image.asset('assets/images/questions-logo.png'),
           ),
           const SizedBox(height: 20),
-          const Text(
+          Text(
             'Welcome to the Quiz!',
-            style: TextStyle(
-                fontSize: 18, fontWeight: FontWeight.w500, color: Colors.white),
+            style: GoogleFonts.roboto(
+              fontSize: 18,
+              fontWeight: FontWeight.w500,
+              color: Colors.white,
+            ),
           ),
           const SizedBox(height: 20),
           OutlinedButton(
-            onPressed: renderQuestionsScreen,
+            onPressed: () {
+              navigateTo('/questions');
+            },
             style: OutlinedButton.styleFrom(
               foregroundColor: Colors.white,
               side: const BorderSide(width: 0.2),
