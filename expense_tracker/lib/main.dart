@@ -1,22 +1,12 @@
 import 'package:expense_tracker/expense_tracker_app.dart';
+import 'package:expense_tracker/repository/expenses/expenses.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 void main() {
-  runApp(const MyApp());
-}
+  GetIt.I.registerSingleton<AbstractExpensesRepository>(
+    LocalExpensesRepository(),
+  );
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const ExpenseTrackerApp(),
-    );
-  }
+  runApp(const ExpensesTrackerApp());
 }
