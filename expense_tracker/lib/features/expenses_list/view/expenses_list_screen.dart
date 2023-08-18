@@ -14,7 +14,7 @@ class _ExpensesListScreenState extends State<ExpensesListScreen> {
   void _openAddExpenseOverlay() {
     showModalBottomSheet(
       context: context,
-      builder: (ctx) => NewExpenseForm(),
+      builder: (ctx) => const NewExpenseForm(),
     );
   }
 

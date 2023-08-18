@@ -5,13 +5,13 @@ final List<Expense> expenses = [
   Expense(
     title: 'Water in gym',
     amount: 10.6,
-    createdAt: DateTime.now(),
+    date: DateTime.now(),
     category: Category.gym,
   ),
   Expense(
     title: 'Breakfast at skyscrapper',
     amount: 20.56,
-    createdAt: DateTime.now(),
+    date: DateTime.now(),
     category: Category.food,
   ),
 ];
