@@ -1,4 +1,5 @@
 import 'package:expense_tracker/features/expenses_list/widgets/widgets.dart';
+import 'package:expense_tracker/models/expense.dart';
 import 'package:flutter/material.dart';
 import 'package:expense_tracker/repository/expenses/expenses.dart';
 import 'package:get_it/get_it.dart';
@@ -11,16 +12,66 @@ class ExpensesListScreen extends StatefulWidget {
 }
 
 class _ExpensesListScreenState extends State<ExpensesListScreen> {
+  final expensesRepository = GetIt.I<AbstractExpensesRepository>();
+
+  List<Expense> expenses = [];
+  Map<Category, double> totalsByCategory = {};
+
   void _openAddExpenseOverlay() {
     showModalBottomSheet(
       context: context,
-      builder: (ctx) => const NewExpenseForm(),
+      isScrollControlled: true,
+      builder: (ctx) => NewExpenseForm(
+        createExpense: createExpense,
+      ),
     );
+  }
+
+  void createExpense(expense) {
+    expensesRepository.saveExpense(expense);
+    setState(() {});
+  }
+
+  void removeExpense(expense) {
+    final List<Expense> expenses = expensesRepository.expensesList();
+    int expenseIndex = expenses.indexOf(expense);
+    expensesRepository.deleteExpense(expense);
+    setState(() {});
+
+    ScaffoldMessengerState sm = ScaffoldMessenger.of(context);
+    sm.clearSnackBars();
+    sm.showSnackBar(
+      SnackBar(
+        duration: const Duration(seconds: 3),
+        content: const Text('Expense deleted'),
+        action: SnackBarAction(
+          label: 'Undo',
+          onPressed: () {
+            expensesRepository.restoreExpense(expenseIndex, expense);
+            setState(() {});
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget mainContent(List<Expense> expenses) {
+    if (expenses.isEmpty) {
+      return const Center(
+        child: Text("You don't have any expenses. Start adding some!"),
+      );
+    } else {
+      return ExpensesList(
+        expenses: expenses,
+        onExpenseRemove: removeExpense,
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final expenses = GetIt.I<AbstractExpensesRepository>().expensesList();
+    final expenses = expensesRepository.expensesList();
+    final totalsByCategory = expensesRepository.categoryTotals();
 
     return Scaffold(
       appBar: AppBar(
@@ -37,10 +88,8 @@ class _ExpensesListScreenState extends State<ExpensesListScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text('chart'),
-            Expanded(
-              child: ExpensesList(expenses: expenses),
-            ),
+            Chart(totalsByCategory: totalsByCategory),
+            Expanded(child: mainContent(expenses)),
           ],
         ),
       ),

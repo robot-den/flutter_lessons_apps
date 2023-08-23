@@ -2,7 +2,12 @@ import 'package:expense_tracker/models/expense.dart';
 import 'package:flutter/material.dart';
 
 class NewExpenseForm extends StatefulWidget {
-  const NewExpenseForm({super.key});
+  const NewExpenseForm({
+    super.key,
+    required this.createExpense,
+  });
+
+  final void Function(Expense expense) createExpense;
 
   @override
   State<NewExpenseForm> createState() => _NewExpenseFormState();
@@ -57,10 +62,43 @@ class _NewExpenseFormState extends State<NewExpenseForm> {
     }
   }
 
+  void _submitExpenseForm() {
+    final amount = double.tryParse(_amountController.text);
+    final title = _titleController.text.trim();
+    final amountIsInvalid = amount == null || amount <= 0;
+
+    if (title.isEmpty || amountIsInvalid) {
+      showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: const Text('Invalid input'),
+          content: const Text(
+              'Please make sure a valid title and amount were entered'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(ctx),
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
+      return;
+    }
+
+    widget.createExpense(Expense(
+      title: title,
+      amount: amount,
+      date: _selectedDate,
+      category: _selectedCategory,
+    ));
+
+    Navigator.pop(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.fromLTRB(16, 48, 16, 16),
       child: Column(
         children: [
           TextField(
@@ -75,7 +113,8 @@ class _NewExpenseFormState extends State<NewExpenseForm> {
               Expanded(
                 child: TextField(
                   controller: _amountController,
-                  keyboardType: TextInputType.number,
+                  keyboardType:
+                      const TextInputType.numberWithOptions(decimal: true),
                   decoration: const InputDecoration(
                     prefixText: '\$ ',
                     label: Text('Amount'),
@@ -112,7 +151,7 @@ class _NewExpenseFormState extends State<NewExpenseForm> {
                 child: const Text('Cancel'),
               ),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: _submitExpenseForm,
                 child: const Text('Save expense'),
               ),
             ],
