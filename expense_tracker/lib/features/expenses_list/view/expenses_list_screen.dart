@@ -19,6 +19,7 @@ class _ExpensesListScreenState extends State<ExpensesListScreen> {
 
   void _openAddExpenseOverlay() {
     showModalBottomSheet(
+      useSafeArea: true,
       context: context,
       isScrollControlled: true,
       builder: (ctx) => NewExpenseForm(
@@ -72,6 +73,7 @@ class _ExpensesListScreenState extends State<ExpensesListScreen> {
   Widget build(BuildContext context) {
     final expenses = expensesRepository.expensesList();
     final totalsByCategory = expensesRepository.categoryTotals();
+    final screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
       appBar: AppBar(
@@ -84,15 +86,25 @@ class _ExpensesListScreenState extends State<ExpensesListScreen> {
           )
         ],
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Chart(totalsByCategory: totalsByCategory),
-            Expanded(child: mainContent(expenses)),
-          ],
-        ),
-      ),
+      body: screenWidth < 600
+          ? Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Chart(totalsByCategory: totalsByCategory),
+                  Expanded(child: mainContent(expenses)),
+                ],
+              ),
+            )
+          : Center(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Expanded(child: Chart(totalsByCategory: totalsByCategory)),
+                  Expanded(child: mainContent(expenses)),
+                ],
+              ),
+            ),
     );
   }
 }
