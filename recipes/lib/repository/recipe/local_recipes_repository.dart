@@ -62,13 +62,13 @@ final _recipes = [
         name: 'Spices',
         imageUrl:
             'https://landspices.com/wp-content/uploads/2016/09/amaya_recipe1-320x255.png',
-        amountStr: 'As you Like',
+        amountStr: 'as you like',
       ),
       Ingredient(
           name: 'Cheese',
           imageUrl:
               'https://cdn.shopify.com/s/files/1/0244/3513/0423/products/2300717_4fcdc746-ea0b-4f94-af17-5f185d26d6a2_600x.png?v=1627800575',
-          amountStr: 'As you Like'),
+          amountStr: 'as you like'),
     ],
     steps: [
       'Cut the tomatoes and the onion into small pieces.',
@@ -93,7 +93,7 @@ final _recipes = [
     affordability: Affordability.affordable,
     complexity: Complexity.simple,
     imageUrl:
-        'https://cdn.pixabay.com/photo/2018/07/11/21/51/toast-3532016_1280.jpg',
+        'https://lueske-berlin.b-cdn.net/wp-content/uploads/2020/12/Lueske_Toast_Hawai_Deluxei.jpg',
     duration: 10,
     ingredients: [
       Ingredient(
@@ -147,7 +147,7 @@ final _recipes = [
     affordability: Affordability.pricey,
     complexity: Complexity.simple,
     imageUrl:
-        'https://cdn.pixabay.com/photo/2014/10/23/18/05/burger-500054_1280.jpg',
+        'https://img.freepik.com/premium-photo/closeup-classic-hamburger-with-beef-patty_219193-4693.jpg',
     duration: 45,
     ingredients: [
       Ingredient(
@@ -178,7 +178,7 @@ final _recipes = [
         name: 'Ketchup',
         imageUrl:
             'https://pngpress.com/wp-content/uploads/2020/09/uploads_ketchup_ketchup_PNG15.png',
-        amountStr: 'As you Like',
+        amountStr: 'as you like',
       ),
       Ingredient(
         name: 'Burger Buns',
@@ -208,7 +208,7 @@ final _recipes = [
     affordability: Affordability.luxurious,
     complexity: Complexity.challenging,
     imageUrl:
-        'https://cdn.pixabay.com/photo/2018/03/31/19/29/schnitzel-3279045_1280.jpg',
+        'http://eileenskitchenstories.com/wp-content/uploads/2017/07/Wiener-Schnitzel.jpg',
     duration: 60,
     ingredients: [
       Ingredient(
@@ -256,7 +256,7 @@ final _recipes = [
         name: 'Sliced Lemon',
         imageUrl:
             'https://www.gadcoegypt.com/wp-content/uploads/2018/05/Gadco-Lemon2.png',
-        amountStr: 'As you Like',
+        amountStr: 'as you like',
       ),
     ],
     steps: [
@@ -284,7 +284,7 @@ final _recipes = [
     affordability: Affordability.luxurious,
     complexity: Complexity.simple,
     imageUrl:
-        'https://cdn.pixabay.com/photo/2016/10/25/13/29/smoked-salmon-salad-1768890_1280.jpg',
+        'https://www.acouplecooks.com/wp-content/uploads/2021/07/Smoked-Salmon-Salad-010.jpg',
     duration: 15,
     ingredients: [
       Ingredient(
@@ -362,8 +362,7 @@ final _recipes = [
     title: 'Delicious Orange Mousse',
     affordability: Affordability.affordable,
     complexity: Complexity.hard,
-    imageUrl:
-        'https://cdn.pixabay.com/photo/2017/05/01/05/18/pastry-2274750_1280.jpg',
+    imageUrl: 'https://i.ytimg.com/vi/ba_3ICebDoo/maxresdefault.jpg',
     duration: 240,
     ingredients: [
       Ingredient(
@@ -399,7 +398,7 @@ final _recipes = [
         name: 'Orange Peel',
         imageUrl:
             'https://www.biovoices.eu/image_temp/516X516_516X516_983d2efd57d6375b74c96647e731092f.png',
-        amountStr: 'As you Like',
+        amountStr: 'as you like',
       ),
     ],
     steps: [
@@ -427,7 +426,7 @@ final _recipes = [
     affordability: Affordability.affordable,
     complexity: Complexity.simple,
     imageUrl:
-        'https://cdn.pixabay.com/photo/2018/07/10/21/23/pancake-3529653_1280.jpg',
+        'https://images-gmi-pmc.edge-generalmills.com/df109202-f5dd-45a1-99b4-f10939afd509.jpg',
     duration: 20,
     ingredients: [
       Ingredient(
@@ -492,7 +491,7 @@ final _recipes = [
     affordability: Affordability.pricey,
     complexity: Complexity.challenging,
     imageUrl:
-        'https://cdn.pixabay.com/photo/2018/06/18/16/05/indian-food-3482749_1280.jpg',
+        'https://gimmedelicious.com/wp-content/uploads/2021/01/Chicken-Curry-SQ.jpg',
     duration: 35,
     ingredients: [
       Ingredient(
@@ -560,7 +559,7 @@ final _recipes = [
     affordability: Affordability.affordable,
     complexity: Complexity.hard,
     imageUrl:
-        'https://cdn.pixabay.com/photo/2014/08/07/21/07/souffle-412785_1280.jpg',
+        'https://www.justonecookbook.com/wp-content/uploads/2021/02/Chocolate-Souffle-9632-I-2.jpg',
     duration: 45,
     ingredients: [
       Ingredient(
@@ -670,7 +669,7 @@ final _recipes = [
     affordability: Affordability.luxurious,
     complexity: Complexity.simple,
     imageUrl:
-        'https://cdn.pixabay.com/photo/2018/04/09/18/26/asparagus-3304997_1280.jpg',
+        'https://juliasalbum.com/wp-content/uploads/2021/09/asparagus-tomato-salad-with-burrata-cheese-1.jpg',
     duration: 30,
     ingredients: [
       Ingredient(

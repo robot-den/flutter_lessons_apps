@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recipes/features/recipes/view/recipe_details_screen.dart';
 import 'package:recipes/features/recipes/widgets/widgets.dart';
 import 'package:recipes/models/models.dart';
 
@@ -12,6 +13,16 @@ class RecipesListScreen extends StatelessWidget {
   final Category category;
   final List<Recipe> recipes;
 
+  void navigateToRecipeDetailed(BuildContext context, Recipe recipe) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (ctx) {
+          return RecipeDetailsScreen(recipe: recipe);
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -21,9 +32,9 @@ class RecipesListScreen extends StatelessWidget {
       body = ListView.builder(
         itemCount: recipes.length,
         itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: RecipeListItem(recipe: recipes[index]),
+          return RecipeListItem(
+            recipe: recipes[index],
+            onSelectRecipe: navigateToRecipeDetailed,
           );
         },
       );
@@ -50,7 +61,7 @@ class RecipesListScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Pick recipe'),
+        title: Text('${category.title} recipes'),
       ),
       body: body,
     );
