@@ -7,17 +7,22 @@ class RecipesListScreen extends StatelessWidget {
   const RecipesListScreen({
     super.key,
     required this.recipes,
-    required this.category,
+    this.categoryName,
+    required this.onToggleFavorite,
   });
 
-  final Category category;
+  final String? categoryName;
   final List<Recipe> recipes;
+  final void Function(Recipe recipe) onToggleFavorite;
 
   void navigateToRecipeDetailed(BuildContext context, Recipe recipe) {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (ctx) {
-          return RecipeDetailsScreen(recipe: recipe);
+          return RecipeDetailsScreen(
+            recipe: recipe,
+            onToggleFavorite: onToggleFavorite,
+          );
         },
       ),
     );
@@ -59,9 +64,13 @@ class RecipesListScreen extends StatelessWidget {
       );
     }
 
+    if (categoryName == null) {
+      return body;
+    }
+
     return Scaffold(
       appBar: AppBar(
-        title: Text('${category.title} recipes'),
+        title: Text('$categoryName recipes'),
       ),
       body: body,
     );

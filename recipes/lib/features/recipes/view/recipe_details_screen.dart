@@ -6,9 +6,11 @@ class RecipeDetailsScreen extends StatelessWidget {
   const RecipeDetailsScreen({
     super.key,
     required this.recipe,
+    required this.onToggleFavorite,
   });
 
   final Recipe recipe;
+  final void Function(Recipe recipe) onToggleFavorite;
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +19,12 @@ class RecipeDetailsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(recipe.title),
+        actions: [
+          IconButton(
+            onPressed: () => onToggleFavorite(recipe),
+            icon: const Icon(Icons.favorite),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(

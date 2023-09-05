@@ -7,7 +7,12 @@ import 'package:recipes/repository/category/abstract_categories_repository.dart'
 import 'package:recipes/repository/recipe/recipes.dart';
 
 class CategoriesListScreen extends StatelessWidget {
-  const CategoriesListScreen({super.key});
+  const CategoriesListScreen({
+    super.key,
+    required this.onToggleFavorite,
+  });
+
+  final void Function(Recipe recipe) onToggleFavorite;
 
   void navigateToCategoryRecipes(BuildContext context, Category category) {
     final recipes = GetIt.I<AbstractRecipesRepository>()
@@ -16,7 +21,11 @@ class CategoriesListScreen extends StatelessWidget {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (ctx) {
-          return RecipesListScreen(category: category, recipes: recipes);
+          return RecipesListScreen(
+            categoryName: category.title,
+            recipes: recipes,
+            onToggleFavorite: onToggleFavorite,
+          );
         },
       ),
     );
@@ -27,26 +36,21 @@ class CategoriesListScreen extends StatelessWidget {
     final categoriesRepository = GetIt.I<AbstractCategoriesRepository>();
     final categories = categoriesRepository.categories();
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Pick category'),
+    return GridView(
+      padding: const EdgeInsets.all(16),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        childAspectRatio: 3 / 2,
+        crossAxisSpacing: 20,
+        mainAxisSpacing: 20,
       ),
-      body: GridView(
-        padding: const EdgeInsets.all(16),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          childAspectRatio: 3 / 2,
-          crossAxisSpacing: 20,
-          mainAxisSpacing: 20,
-        ),
-        children: [
-          for (final category in categories)
-            CategoryGridItem(
-              category: category,
-              onSelectCategory: navigateToCategoryRecipes,
-            )
-        ],
-      ),
+      children: [
+        for (final category in categories)
+          CategoryGridItem(
+            category: category,
+            onSelectCategory: navigateToCategoryRecipes,
+          )
+      ],
     );
   }
 }

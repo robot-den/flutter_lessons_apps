@@ -8,7 +8,7 @@ class LocalRecipesRepository implements AbstractRecipesRepository {
   }
 
   @override
-  List<Recipe> filteredRecipes({Category? category}) {
+  List<Recipe> filteredRecipes({Category? category, bool? isFavorite}) {
     List<Recipe> filtered = List.of(_recipes);
 
     if (category != null) {
@@ -17,8 +17,18 @@ class LocalRecipesRepository implements AbstractRecipesRepository {
       }).toList();
     }
 
+    if (isFavorite != null) {
+      filtered = filtered.where((element) {
+        return element.isFavorite == isFavorite;
+      }).toList();
+    }
+
     return filtered;
   }
+
+  // NOTE: just imitate some db update (actually we operate same recipe objects)
+  @override
+  Recipe updateRecipe(Recipe recipe) => recipe;
 }
 
 final _recipes = [
