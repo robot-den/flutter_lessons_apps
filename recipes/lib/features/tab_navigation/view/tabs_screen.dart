@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:recipes/features/categories/view/categories_list_screen.dart';
+import 'package:recipes/features/filters/view/filters_screen.dart';
 import 'package:recipes/features/recipes/view/recipes_list_screen.dart';
+import 'package:recipes/features/tab_navigation/widgets/side_drawer.dart';
 import 'package:recipes/models/models.dart';
 import 'package:recipes/repository/recipe/recipes.dart';
 
@@ -41,6 +43,24 @@ class _TabsScreenState extends State<TabsScreen> {
     }
   }
 
+  void navigateToRoute(String route) {
+    Navigator.of(context).pop();
+
+    switch (route) {
+      // TODO: rename route to categories
+      case 'recipes':
+        1;
+      case 'filters':
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (ctx) => const FiltersScreen(),
+          ),
+        );
+      default:
+        throw ('unhandled route: $route');
+    }
+  }
+
   Widget get currentScreen {
     switch (_selectedScreenIndex) {
       case 0:
@@ -75,6 +95,9 @@ class _TabsScreenState extends State<TabsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(currentTitleText),
+      ),
+      drawer: SideDrawer(
+        onSelectRoute: navigateToRoute,
       ),
       body: currentScreen,
       bottomNavigationBar: BottomNavigationBar(

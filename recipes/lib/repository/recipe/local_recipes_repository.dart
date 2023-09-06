@@ -29,7 +29,12 @@ class LocalRecipesRepository implements AbstractRecipesRepository {
   // NOTE: just imitate some db update (actually we operate same recipe objects)
   @override
   Recipe updateRecipe(Recipe recipe) => recipe;
+
+  @override
+  Filters filters() => _filters;
 }
+
+final _filters = Filters();
 
 final _recipes = [
   Recipe(
