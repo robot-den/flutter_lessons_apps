@@ -47,9 +47,10 @@ class _TabsScreenState extends State<TabsScreen> {
     Navigator.of(context).pop();
 
     switch (route) {
-      // TODO: rename route to categories
-      case 'recipes':
-        1;
+      case 'categories':
+        setState(() {
+          _selectedScreenIndex = 0;
+        });
       case 'filters':
         Navigator.of(context).push(
           MaterialPageRoute(

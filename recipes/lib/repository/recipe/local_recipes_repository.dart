@@ -23,6 +23,35 @@ class LocalRecipesRepository implements AbstractRecipesRepository {
       }).toList();
     }
 
+    Filters filtrs = filters();
+
+    if (filtrs.onlyGlutenFree) {
+      filtered = filtered.where((element) {
+        return (isFavorite == true && element.isFavorite) ||
+            element.isGlutenFree;
+      }).toList();
+    }
+
+    if (filtrs.onlyLactoseFree) {
+      filtered = filtered.where((element) {
+        return (isFavorite == true && element.isFavorite) ||
+            element.isLactoseFree;
+      }).toList();
+    }
+
+    if (filtrs.onlyVegan) {
+      filtered = filtered.where((element) {
+        return (isFavorite == true && element.isFavorite) || element.isVegan;
+      }).toList();
+    }
+
+    if (filtrs.onlyVegetarian) {
+      filtered = filtered.where((element) {
+        return (isFavorite == true && element.isFavorite) ||
+            element.isVegetarian;
+      }).toList();
+    }
+
     return filtered;
   }
 

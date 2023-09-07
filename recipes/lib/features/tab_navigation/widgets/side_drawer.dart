@@ -51,13 +51,13 @@ class SideDrawer extends StatelessWidget {
               color: theme.colorScheme.onBackground,
             ),
             title: Text(
-              'Recipes',
+              'Categories',
               style: theme.textTheme.titleSmall!.copyWith(
                 color: theme.colorScheme.onBackground,
                 fontSize: 24,
               ),
             ),
-            onTap: () => onSelectRoute('recipes'),
+            onTap: () => onSelectRoute('categories'),
           ),
           ListTile(
             leading: Icon(
