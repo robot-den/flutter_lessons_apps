@@ -1,46 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:recipes/features/categories/view/categories_list_screen.dart';
 import 'package:recipes/features/filters/view/filters_screen.dart';
 import 'package:recipes/features/recipes/view/recipes_list_screen.dart';
 import 'package:recipes/features/tab_navigation/widgets/side_drawer.dart';
-import 'package:recipes/models/models.dart';
-import 'package:recipes/repository/recipe/recipes.dart';
+import 'package:recipes/providers/favorite_recipes_provider.dart';
 
-class TabsScreen extends StatefulWidget {
+class TabsScreen extends ConsumerStatefulWidget {
   const TabsScreen({super.key});
 
   @override
-  State<TabsScreen> createState() => _TabsScreenState();
+  ConsumerState<TabsScreen> createState() => _TabsScreenState();
 }
 
-class _TabsScreenState extends State<TabsScreen> {
+class _TabsScreenState extends ConsumerState<TabsScreen> {
   int _selectedScreenIndex = 0;
 
   void _selectScreen(int index) {
     setState(() {
       _selectedScreenIndex = index;
     });
-  }
-
-  void _showInfoMessage(String message) {
-    ScaffoldMessenger.of(context).clearSnackBars();
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(duration: const Duration(seconds: 2), content: Text(message)),
-    );
-  }
-
-  void _toggleRecipeIsFavorite(Recipe recipe) {
-    setState(() {
-      recipe.isFavorite = !recipe.isFavorite;
-      GetIt.I<AbstractRecipesRepository>().updateRecipe(recipe);
-    });
-
-    if (recipe.isFavorite) {
-      _showInfoMessage('recipe added to favorite');
-    } else {
-      _showInfoMessage('recipe is removed from favorite');
-    }
   }
 
   void navigateToRoute(String route) {
@@ -65,16 +45,10 @@ class _TabsScreenState extends State<TabsScreen> {
   Widget get currentScreen {
     switch (_selectedScreenIndex) {
       case 0:
-        return CategoriesListScreen(
-          onToggleFavorite: _toggleRecipeIsFavorite,
-        );
+        return const CategoriesListScreen();
       case 1:
-        final recipes = GetIt.I<AbstractRecipesRepository>()
-            .filteredRecipes(isFavorite: true);
-        return RecipesListScreen(
-          recipes: recipes,
-          onToggleFavorite: _toggleRecipeIsFavorite,
-        );
+        final recipes = ref.watch(favoriteRecipesProvider);
+        return RecipesListScreen(recipes: recipes);
       default:
         throw ('unhandled tab id');
     }

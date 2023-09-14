@@ -1,19 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
-import 'package:recipes/repository/recipe/recipes.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:recipes/models/models.dart';
+import 'package:recipes/providers/filters_provider.dart';
 
-class FiltersScreen extends StatefulWidget {
+class FiltersScreen extends ConsumerWidget {
   const FiltersScreen({super.key});
 
   @override
-  State<FiltersScreen> createState() => _FiltersScreenState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final filters = ref.watch(filtersProvider);
 
-class _FiltersScreenState extends State<FiltersScreen> {
-  final filters = GetIt.I<AbstractRecipesRepository>().filters();
-
-  @override
-  Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final titleStyle = theme.textTheme.titleLarge!.copyWith(
       color: theme.colorScheme.onBackground,
@@ -21,6 +17,8 @@ class _FiltersScreenState extends State<FiltersScreen> {
     final subtitleStyle = theme.textTheme.labelMedium!.copyWith(
       color: theme.colorScheme.onBackground,
     );
+
+    final notifier = ref.read(filtersProvider.notifier);
 
     return Scaffold(
       appBar: AppBar(
@@ -30,11 +28,8 @@ class _FiltersScreenState extends State<FiltersScreen> {
         children: [
           SwitchListTile(
             value: filters.onlyGlutenFree,
-            onChanged: (isChecked) {
-              setState(() {
-                filters.onlyGlutenFree = isChecked;
-              });
-            },
+            onChanged: (isChecked) =>
+                notifier.setFilter(Filter.glutenFree, isChecked),
             title: Text('Gluten-free', style: titleStyle),
             subtitle: Text('show only gluten-free meals', style: subtitleStyle),
             activeColor: theme.colorScheme.tertiary,
@@ -42,11 +37,8 @@ class _FiltersScreenState extends State<FiltersScreen> {
           ),
           SwitchListTile(
             value: filters.onlyLactoseFree,
-            onChanged: (isChecked) {
-              setState(() {
-                filters.onlyLactoseFree = isChecked;
-              });
-            },
+            onChanged: (isChecked) =>
+                notifier.setFilter(Filter.lactoseFree, isChecked),
             title: Text('Lactose-free', style: titleStyle),
             subtitle:
                 Text('show only lactose-free meals', style: subtitleStyle),
@@ -55,11 +47,8 @@ class _FiltersScreenState extends State<FiltersScreen> {
           ),
           SwitchListTile(
             value: filters.onlyVegan,
-            onChanged: (isChecked) {
-              setState(() {
-                filters.onlyVegan = isChecked;
-              });
-            },
+            onChanged: (isChecked) =>
+                notifier.setFilter(Filter.vegan, isChecked),
             title: Text('Vegan', style: titleStyle),
             subtitle: Text('show only vegan meals', style: subtitleStyle),
             activeColor: theme.colorScheme.tertiary,
@@ -67,11 +56,8 @@ class _FiltersScreenState extends State<FiltersScreen> {
           ),
           SwitchListTile(
             value: filters.onlyVegetarian,
-            onChanged: (isChecked) {
-              setState(() {
-                filters.onlyVegetarian = isChecked;
-              });
-            },
+            onChanged: (isChecked) =>
+                notifier.setFilter(Filter.vegetarian, isChecked),
             title: Text('Vegetarian', style: titleStyle),
             subtitle: Text('show only vegetarian meals', style: subtitleStyle),
             activeColor: theme.colorScheme.tertiary,

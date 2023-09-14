@@ -8,21 +8,16 @@ class RecipesListScreen extends StatelessWidget {
     super.key,
     required this.recipes,
     this.categoryName,
-    required this.onToggleFavorite,
   });
 
   final String? categoryName;
   final List<Recipe> recipes;
-  final void Function(Recipe recipe) onToggleFavorite;
 
   void navigateToRecipeDetailed(BuildContext context, Recipe recipe) {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (ctx) {
-          return RecipeDetailsScreen(
-            recipe: recipe,
-            onToggleFavorite: onToggleFavorite,
-          );
+          return RecipeDetailsScreen(recipe: recipe);
         },
       ),
     );

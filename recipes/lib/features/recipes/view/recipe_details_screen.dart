@@ -1,28 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:recipes/models/models.dart';
+import 'package:recipes/providers/favorite_recipes_provider.dart';
 import 'package:transparent_image/transparent_image.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class RecipeDetailsScreen extends StatelessWidget {
+class RecipeDetailsScreen extends ConsumerWidget {
   const RecipeDetailsScreen({
     super.key,
     required this.recipe,
-    required this.onToggleFavorite,
   });
 
   final Recipe recipe;
-  final void Function(Recipe recipe) onToggleFavorite;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
+    ref.watch(favoriteRecipesProvider);
 
     return Scaffold(
       appBar: AppBar(
         title: Text(recipe.title),
         actions: [
           IconButton(
-            onPressed: () => onToggleFavorite(recipe),
-            icon: const Icon(Icons.favorite),
+            onPressed: () {
+              ref
+                  .read(favoriteRecipesProvider.notifier)
+                  .toggleRecipeIsFavorite(recipe);
+
+              ScaffoldMessenger.of(context).clearSnackBars();
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  duration: const Duration(seconds: 2),
+                  content: Text(recipe.isFavorite
+                      ? 'Recipe is added to favorites'
+                      : 'Recipe is removed from favorites'),
+                ),
+              );
+            },
+            icon: Icon(
+                recipe.isFavorite ? Icons.favorite : Icons.favorite_border),
           ),
         ],
       ),

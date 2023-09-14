@@ -8,7 +8,11 @@ class LocalRecipesRepository implements AbstractRecipesRepository {
   }
 
   @override
-  List<Recipe> filteredRecipes({Category? category, bool? isFavorite}) {
+  List<Recipe> filteredRecipes({
+    Category? category,
+    bool? isFavorite,
+    Filters? filters,
+  }) {
     List<Recipe> filtered = List.of(_recipes);
 
     if (category != null) {
@@ -23,29 +27,27 @@ class LocalRecipesRepository implements AbstractRecipesRepository {
       }).toList();
     }
 
-    Filters filtrs = filters();
-
-    if (filtrs.onlyGlutenFree) {
+    if (filters != null && filters.onlyGlutenFree) {
       filtered = filtered.where((element) {
         return (isFavorite == true && element.isFavorite) ||
             element.isGlutenFree;
       }).toList();
     }
 
-    if (filtrs.onlyLactoseFree) {
+    if (filters != null && filters.onlyLactoseFree) {
       filtered = filtered.where((element) {
         return (isFavorite == true && element.isFavorite) ||
             element.isLactoseFree;
       }).toList();
     }
 
-    if (filtrs.onlyVegan) {
+    if (filters != null && filters.onlyVegan) {
       filtered = filtered.where((element) {
         return (isFavorite == true && element.isFavorite) || element.isVegan;
       }).toList();
     }
 
-    if (filtrs.onlyVegetarian) {
+    if (filters != null && filters.onlyVegetarian) {
       filtered = filtered.where((element) {
         return (isFavorite == true && element.isFavorite) ||
             element.isVegetarian;
@@ -61,9 +63,12 @@ class LocalRecipesRepository implements AbstractRecipesRepository {
 
   @override
   Filters filters() => _filters;
+
+  @override
+  Filters updateFilters(Filters filters) => _filters = filters;
 }
 
-final _filters = Filters();
+Filters _filters = Filters();
 
 final _recipes = [
   Recipe(

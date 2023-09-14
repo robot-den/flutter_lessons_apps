@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
 import 'package:recipes/recipes_app.dart';
 import 'package:recipes/repository/category/category.dart';
@@ -13,5 +14,9 @@ void main() {
     LocalRecipesRepository(),
   );
 
-  runApp(const RecipesApp());
+  runApp(
+    const ProviderScope(
+      child: RecipesApp(),
+    ),
+  );
 }
