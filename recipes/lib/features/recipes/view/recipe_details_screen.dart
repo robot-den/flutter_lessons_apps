@@ -37,20 +37,37 @@ class RecipeDetailsScreen extends ConsumerWidget {
                 ),
               );
             },
-            icon: Icon(
-                recipe.isFavorite ? Icons.favorite : Icons.favorite_border),
+            icon: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 1000),
+              transitionBuilder: (child, animation) {
+                return ScaleTransition(
+                  scale: CurvedAnimation(
+                    parent: Tween(begin: 0.0, end: 1.0).animate(animation),
+                    curve: Curves.decelerate,
+                  ),
+                  child: child,
+                );
+              },
+              child: Icon(
+                recipe.isFavorite ? Icons.favorite : Icons.favorite_border,
+                key: ValueKey(recipe.isFavorite),
+              ),
+            ),
           ),
         ],
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            FadeInImage(
-              placeholder: MemoryImage(kTransparentImage),
-              image: NetworkImage(recipe.imageUrl),
-              fit: BoxFit.cover,
-              height: 300,
-              width: double.infinity,
+            Hero(
+              tag: recipe.id,
+              child: FadeInImage(
+                placeholder: MemoryImage(kTransparentImage),
+                image: NetworkImage(recipe.imageUrl),
+                fit: BoxFit.cover,
+                height: 300,
+                width: double.infinity,
+              ),
             ),
             const SizedBox(height: 16),
             Text(

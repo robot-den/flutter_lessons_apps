@@ -21,7 +21,7 @@ class _CategoriesListScreenState extends State<CategoriesListScreen>
 
     _animationController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 500),
       // lowerBound: 0,
       // upperBound: 1,
     );
@@ -57,10 +57,14 @@ class _CategoriesListScreenState extends State<CategoriesListScreen>
           ],
         ),
         builder: (context, child) {
-          return Padding(
-            padding: EdgeInsets.only(
-              top: 100 - _animationController.value * 100,
-            ),
+          return SlideTransition(
+            position: Tween(
+              begin: const Offset(0, 0.3),
+              end: const Offset(0, 0),
+            ).animate(CurvedAnimation(
+              parent: _animationController,
+              curve: Curves.easeOutExpo,
+            )),
             child: child,
           );
         });
