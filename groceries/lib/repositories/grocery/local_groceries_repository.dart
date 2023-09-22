@@ -7,6 +7,11 @@ class LocalGroceriesRepository implements AbstractGroceriesRepository {
   List<Grocery> groceries() {
     return List.of(_groceries);
   }
+
+  @override
+  List<Category> categories() {
+    return _categories.values.toList();
+  }
 }
 
 final _groceries = [
@@ -33,10 +38,10 @@ final _groceries = [
 Category category(Categories cat) {
   final category = _categories[cat];
 
-  return category ?? _restCategory;
+  return category ?? _otherCategory;
 }
 
-final _restCategory = Category(name: 'Rest', color: Colors.white);
+final _otherCategory = Category(name: 'Other', color: Colors.white);
 final _categories = {
   Categories.vegetables: Category(
       name: 'Vegetables', color: const Color.fromARGB(255, 0, 255, 128)),
@@ -46,4 +51,16 @@ final _categories = {
       Category(name: 'Meat', color: const Color.fromARGB(255, 255, 102, 0)),
   Categories.dairy:
       Category(name: 'Dairy', color: const Color.fromARGB(255, 0, 208, 255)),
+  Categories.carbs:
+      Category(name: 'Carbs', color: const Color.fromARGB(255, 0, 60, 255)),
+  Categories.sweets:
+      Category(name: 'Sweets', color: const Color.fromARGB(255, 255, 149, 0)),
+  Categories.spices:
+      Category(name: 'Spices', color: const Color.fromARGB(255, 255, 187, 0)),
+  Categories.convenience: Category(
+      name: 'Convenience', color: const Color.fromARGB(255, 191, 0, 255)),
+  Categories.hygiene:
+      Category(name: 'Hygiene', color: const Color.fromARGB(255, 149, 0, 255)),
+  Categories.other:
+      Category(name: 'Other', color: const Color.fromARGB(255, 0, 255, 255)),
 };
