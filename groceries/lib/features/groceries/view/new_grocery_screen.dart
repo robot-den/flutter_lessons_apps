@@ -11,12 +11,20 @@ class NewGroceryScreen extends StatefulWidget {
 }
 
 class _NewGroceryScreenState extends State<NewGroceryScreen> {
-  final categories = GetIt.I<AbstractGroceriesRepository>().categories();
+  final repo = GetIt.I<AbstractGroceriesRepository>();
+  List<Category> categories = [];
   final _formKey = GlobalKey<FormState>();
 
   String _newGroceryName = '';
   int _newGroceryQuantity = 1;
   Category _newGroceryCategory = otherCategory;
+
+  @override
+  void initState() {
+    super.initState();
+
+    categories = repo.categories();
+  }
 
   String? validateName(value) {
     if (value == null) {
@@ -58,8 +66,8 @@ class _NewGroceryScreenState extends State<NewGroceryScreen> {
         quantity: _newGroceryQuantity,
         category: _newGroceryCategory,
       );
-      GetIt.I<AbstractGroceriesRepository>().saveGrocery(grocery);
-      Navigator.of(context).pop(true);
+      repo.saveGrocery(grocery);
+      // Navigator.of(context).pop(true);
     }
   }
 
