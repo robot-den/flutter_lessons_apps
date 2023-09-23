@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:groceries/models/models.dart';
 import 'package:groceries/repositories/grocery/abstract_groceries_repository.dart';
 
@@ -9,8 +8,18 @@ class LocalGroceriesRepository implements AbstractGroceriesRepository {
   }
 
   @override
+  void saveGrocery(Grocery grocery) {
+    _groceries.add(grocery);
+  }
+
+  @override
+  void deleteGrocery(Grocery grocery) {
+    _groceries.remove(grocery);
+  }
+
+  @override
   List<Category> categories() {
-    return _categories.values.toList();
+    return freezedListOfCategories.values.toList();
   }
 }
 
@@ -36,31 +45,7 @@ final _groceries = [
 ];
 
 Category category(Categories cat) {
-  final category = _categories[cat];
+  final category = freezedListOfCategories[cat];
 
-  return category ?? _otherCategory;
+  return category ?? otherCategory;
 }
-
-final _otherCategory = Category(name: 'Other', color: Colors.white);
-final _categories = {
-  Categories.vegetables: Category(
-      name: 'Vegetables', color: const Color.fromARGB(255, 0, 255, 128)),
-  Categories.fruit:
-      Category(name: 'Fruit', color: const Color.fromARGB(255, 145, 255, 0)),
-  Categories.meat:
-      Category(name: 'Meat', color: const Color.fromARGB(255, 255, 102, 0)),
-  Categories.dairy:
-      Category(name: 'Dairy', color: const Color.fromARGB(255, 0, 208, 255)),
-  Categories.carbs:
-      Category(name: 'Carbs', color: const Color.fromARGB(255, 0, 60, 255)),
-  Categories.sweets:
-      Category(name: 'Sweets', color: const Color.fromARGB(255, 255, 149, 0)),
-  Categories.spices:
-      Category(name: 'Spices', color: const Color.fromARGB(255, 255, 187, 0)),
-  Categories.convenience: Category(
-      name: 'Convenience', color: const Color.fromARGB(255, 191, 0, 255)),
-  Categories.hygiene:
-      Category(name: 'Hygiene', color: const Color.fromARGB(255, 149, 0, 255)),
-  Categories.other:
-      Category(name: 'Other', color: const Color.fromARGB(255, 0, 255, 255)),
-};

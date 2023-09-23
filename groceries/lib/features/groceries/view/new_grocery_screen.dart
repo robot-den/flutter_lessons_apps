@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:groceries/models/models.dart';
 import 'package:groceries/repositories/grocery/groceries_repository.dart';
 
 class NewGroceryScreen extends StatefulWidget {
@@ -12,6 +13,10 @@ class NewGroceryScreen extends StatefulWidget {
 class _NewGroceryScreenState extends State<NewGroceryScreen> {
   final categories = GetIt.I<AbstractGroceriesRepository>().categories();
   final _formKey = GlobalKey<FormState>();
+
+  String _newGroceryName = '';
+  int _newGroceryQuantity = 1;
+  Category _newGroceryCategory = otherCategory;
 
   String? validateName(value) {
     if (value == null) {
@@ -44,7 +49,18 @@ class _NewGroceryScreenState extends State<NewGroceryScreen> {
   }
 
   void _submitForm() {
-    _formKey.currentState!.validate();
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+
+      final grocery = Grocery(
+        id: DateTime.now().toString(),
+        name: _newGroceryName,
+        quantity: _newGroceryQuantity,
+        category: _newGroceryCategory,
+      );
+      GetIt.I<AbstractGroceriesRepository>().saveGrocery(grocery);
+      Navigator.of(context).pop(true);
+    }
   }
 
   void _resetForm() {
@@ -69,6 +85,7 @@ class _NewGroceryScreenState extends State<NewGroceryScreen> {
                   label: Text('Name'),
                 ),
                 validator: validateName,
+                onSaved: (newValue) => _newGroceryName = newValue!,
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -81,11 +98,14 @@ class _NewGroceryScreenState extends State<NewGroceryScreen> {
                       ),
                       initialValue: '1',
                       validator: validateQuantity,
+                      onSaved: (newValue) =>
+                          _newGroceryQuantity = int.parse(newValue!),
                     ),
                   ),
                   const SizedBox(width: 8),
                   Expanded(
                     child: DropdownButtonFormField(
+                      value: _newGroceryCategory,
                       items: [
                         for (final category in categories)
                           DropdownMenuItem(
@@ -99,7 +119,11 @@ class _NewGroceryScreenState extends State<NewGroceryScreen> {
                             ),
                           ),
                       ],
-                      onChanged: (value) {},
+                      onChanged: (value) {
+                        setState(() {
+                          _newGroceryCategory = value!;
+                        });
+                      },
                     ),
                   ),
                 ],
