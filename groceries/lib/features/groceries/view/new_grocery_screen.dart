@@ -14,6 +14,7 @@ class _NewGroceryScreenState extends State<NewGroceryScreen> {
   final repo = GetIt.I<AbstractGroceriesRepository>();
   List<Category> categories = [];
   final _formKey = GlobalKey<FormState>();
+  bool _isSending = false;
 
   String _newGroceryName = '';
   int _newGroceryQuantity = 1;
@@ -56,18 +57,25 @@ class _NewGroceryScreenState extends State<NewGroceryScreen> {
     return null;
   }
 
-  void _submitForm() {
+  void _submitForm() async {
     if (_formKey.currentState!.validate()) {
+      setState(() {
+        _isSending = true;
+      });
+
       _formKey.currentState!.save();
 
       final grocery = Grocery(
-        id: DateTime.now().toString(),
         name: _newGroceryName,
         quantity: _newGroceryQuantity,
         category: _newGroceryCategory,
       );
-      repo.saveGrocery(grocery);
-      // Navigator.of(context).pop(true);
+
+      await repo.saveGrocery(grocery);
+
+      if (context.mounted) {
+        Navigator.of(context).pop(true);
+      }
     }
   }
 
@@ -141,13 +149,19 @@ class _NewGroceryScreenState extends State<NewGroceryScreen> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   TextButton(
-                    onPressed: _resetForm,
+                    onPressed: _isSending ? null : _resetForm,
                     child: const Text('Reset'),
                   ),
                   const SizedBox(width: 6),
                   ElevatedButton(
-                    onPressed: _submitForm,
-                    child: const Text('Add'),
+                    onPressed: _isSending ? null : _submitForm,
+                    child: _isSending
+                        ? const SizedBox(
+                            height: 16,
+                            width: 16,
+                            child: CircularProgressIndicator(),
+                          )
+                        : const Text('Add'),
                   ),
                 ],
               ),
