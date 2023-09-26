@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:places/models/models.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class NewPlaceScreen extends StatefulWidget {
+import 'package:places/features/places/widgets/widgets.dart';
+import 'package:places/models/models.dart';
+import 'package:places/providers/places_provider.dart';
+
+class NewPlaceScreen extends ConsumerStatefulWidget {
   const NewPlaceScreen({super.key});
 
   @override
-  State<NewPlaceScreen> createState() => _NewPlaceScreenState();
+  ConsumerState<NewPlaceScreen> createState() => _NewPlaceScreenState();
 }
 
-class _NewPlaceScreenState extends State<NewPlaceScreen> {
+class _NewPlaceScreenState extends ConsumerState<NewPlaceScreen> {
   String _newPlaceTitle = '';
   final _formKey = GlobalKey<FormState>();
 
@@ -29,14 +33,8 @@ class _NewPlaceScreenState extends State<NewPlaceScreen> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
 
-      final place = Place(id: DateTime.now().toString(), title: _newPlaceTitle);
-
-      // TODO: you stopped here trying to update provider
-      // you have to convert this widget to support this provider
-      // you have to implement provider that allows method
-      // you have to convert list widget to support provider
-      // you have to watch in list widget if something changed in provider
-      // provider.savePlace(place);
+      final place = Place(title: _newPlaceTitle);
+      ref.read(placesProvider.notifier).savePlace(place);
 
       Navigator.of(context).pop();
     }
@@ -46,31 +44,36 @@ class _NewPlaceScreenState extends State<NewPlaceScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('New place')),
-      body: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              TextFormField(
-                maxLength: 50,
-                decoration: const InputDecoration(
-                  label: Text('Title'),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                TextFormField(
+                  maxLength: 50,
+                  decoration: const InputDecoration(
+                    label: Text('Title'),
+                  ),
+                  style: const TextStyle(color: Colors.white, fontSize: 20),
+                  validator: validateTitle,
+                  onSaved: (newValue) => _newPlaceTitle = newValue!,
                 ),
-                validator: validateTitle,
-                onSaved: (newValue) => _newPlaceTitle = newValue!,
-              ),
-              const SizedBox(height: 12),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  ElevatedButton(
-                    onPressed: _submitForm,
-                    child: const Text('Add'),
-                  )
-                ],
-              )
-            ],
+                const SizedBox(height: 12),
+                const ImageInput(),
+                const SizedBox(height: 12),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    ElevatedButton(
+                      onPressed: _submitForm,
+                      child: const Text('Add'),
+                    )
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       ),
