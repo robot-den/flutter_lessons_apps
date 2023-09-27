@@ -37,7 +37,7 @@ class DismissiblePlaceCard extends ConsumerWidget {
           ),
         ),
       ),
-      child: InkWell(
+      child: GestureDetector(
         onTap: () => routeToPlaceDetailsScreen(context),
         child: Card(
           child: Padding(
