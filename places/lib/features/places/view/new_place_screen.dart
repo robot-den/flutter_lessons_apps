@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -14,6 +16,7 @@ class NewPlaceScreen extends ConsumerStatefulWidget {
 
 class _NewPlaceScreenState extends ConsumerState<NewPlaceScreen> {
   String _newPlaceTitle = '';
+  File? _newPlaceimage;
   final _formKey = GlobalKey<FormState>();
 
   String? validateTitle(value) {
@@ -30,10 +33,10 @@ class _NewPlaceScreenState extends ConsumerState<NewPlaceScreen> {
   }
 
   void _submitForm() {
-    if (_formKey.currentState!.validate()) {
+    if (_formKey.currentState!.validate() && _newPlaceimage != null) {
       _formKey.currentState!.save();
 
-      final place = Place(title: _newPlaceTitle);
+      final place = Place(title: _newPlaceTitle, image: _newPlaceimage!);
       ref.read(placesProvider.notifier).savePlace(place);
 
       Navigator.of(context).pop();
@@ -61,7 +64,7 @@ class _NewPlaceScreenState extends ConsumerState<NewPlaceScreen> {
                   onSaved: (newValue) => _newPlaceTitle = newValue!,
                 ),
                 const SizedBox(height: 12),
-                const ImageInput(),
+                ImageInput(onImageSelected: (img) => _newPlaceimage = img),
                 const SizedBox(height: 12),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,

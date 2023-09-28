@@ -42,17 +42,17 @@ class DismissiblePlaceCard extends ConsumerWidget {
         child: Card(
           child: Padding(
             padding: const EdgeInsets.symmetric(
-              horizontal: 20,
-              vertical: 16,
+              horizontal: 12,
+              vertical: 12,
             ),
             child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Icon(
-                  Icons.square,
-                  color: Colors.grey,
-                  size: 30,
+                CircleAvatar(
+                  radius: 25,
+                  backgroundImage: FileImage(place.image),
                 ),
-                const SizedBox(width: 20),
+                const SizedBox(width: 12),
                 Text(
                   place.title,
                   style: const TextStyle(
