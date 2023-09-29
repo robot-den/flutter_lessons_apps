@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>To add location the Places needs and access to it</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>To add images the Places needs an access to the library</string>
 	<key>NSCameraUsageDescription</key>
