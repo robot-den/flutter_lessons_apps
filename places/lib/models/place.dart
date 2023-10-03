@@ -5,7 +5,7 @@ import 'package:uuid/uuid.dart';
 const uuid = Uuid();
 
 class PlaceLocation {
-  PlaceLocation({
+  const PlaceLocation({
     required this.latitude,
     required this.longitude,
     required this.formattedAddress,
@@ -14,6 +14,15 @@ class PlaceLocation {
   final double latitude;
   final double longitude;
   final String formattedAddress;
+
+  String get staticMapUrl {
+    return 'https://maps.googleapis.com/maps/api/staticmap?center=$latitude,$longitude&zoom=16&size=600x300&maptype=roadmap&key=YOUR_API_KEY';
+  }
+
+  const PlaceLocation.initial()
+      : latitude = 1,
+        longitude = 1,
+        formattedAddress = '';
 }
 
 class Place {
@@ -25,6 +34,6 @@ class Place {
 
   final String id;
   final String title;
-  final File image;
+  File image;
   final PlaceLocation location;
 }

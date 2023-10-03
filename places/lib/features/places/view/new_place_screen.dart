@@ -2,12 +2,10 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:location/location.dart';
 
 import 'package:places/features/places/widgets/widgets.dart';
 import 'package:places/models/models.dart';
 import 'package:places/providers/places_provider.dart';
-import 'package:places/features/places/widgets/location_input.dart';
 
 class NewPlaceScreen extends ConsumerStatefulWidget {
   const NewPlaceScreen({super.key});

@@ -8,8 +8,8 @@ class PlacesNotifier extends StateNotifier<List<Place>> {
 
   final repo = GetIt.I<PlacesRepository>();
 
-  void savePlace(Place place) {
-    repo.savePlace(place);
+  void savePlace(Place place) async {
+    await repo.savePlace(place);
     state = repo.places();
   }
 

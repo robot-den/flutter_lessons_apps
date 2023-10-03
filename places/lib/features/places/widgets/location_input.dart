@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
+import 'package:places/features/places/view/map_screen.dart';
 import 'package:places/models/models.dart';
 
 class LocationInput extends StatefulWidget {
@@ -16,7 +17,7 @@ class _LocationInputState extends State<LocationInput> {
   bool _isGettingLocation = false;
 
   void _getCurrentLocation() async {
-    Location location = new Location();
+    Location location = Location();
 
     bool serviceEnabled;
     PermissionStatus permissionGranted;
@@ -72,6 +73,26 @@ class _LocationInputState extends State<LocationInput> {
     widget.onLocationSelected(_placeLocation!);
   }
 
+  void _selectOnMap() async {
+    final result = await Navigator.of(context).push<PlaceLocation>(
+      MaterialPageRoute(
+        builder: (context) {
+          if (_placeLocation == null) {
+            return const MapScreen();
+          }
+          return MapScreen(location: _placeLocation!);
+        },
+      ),
+    );
+
+    if (result == null) {
+      return;
+    }
+
+    _placeLocation = result;
+    widget.onLocationSelected(_placeLocation!);
+  }
+
   Widget get locationPreviewContent {
     if (_isGettingLocation) {
       return const CircularProgressIndicator();
@@ -86,7 +107,23 @@ class _LocationInputState extends State<LocationInput> {
       );
     }
 
-    return const Text('not implemented');
+    return SizedBox(
+      height: 170,
+      width: double.infinity,
+      child: Image.network(
+        _placeLocation!.staticMapUrl,
+        errorBuilder: (context, error, stackTrace) {
+          return Center(
+            child: Text(
+              'Failed! But imagine that here you see a map :)',
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.primary,
+              ),
+            ),
+          );
+        },
+      ),
+    );
   }
 
   @override
@@ -111,7 +148,7 @@ class _LocationInputState extends State<LocationInput> {
               label: const Text('Get current location'),
             ),
             TextButton.icon(
-              onPressed: () {},
+              onPressed: _selectOnMap,
               icon: const Icon(Icons.map),
               label: const Text('Select on map'),
             ),
