@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:uuid/uuid.dart';
 
 const uuid = Uuid();
@@ -30,10 +29,32 @@ class Place {
     required this.title,
     required this.image,
     required this.location,
-  }) : id = uuid.v4();
+    String? id,
+  }) : id = id ?? uuid.v4();
 
   final String id;
   final String title;
   File image;
   final PlaceLocation location;
+
+  Map<String, Object?> toDbFormat() {
+    return {
+      'id': id,
+      'title': title,
+      'image_path': image.path,
+      'lat': location.latitude,
+      'lng': location.longitude,
+      'formatted_address': location.formattedAddress,
+    };
+  }
+
+  Place.fromDbFormat(Map<String, Object?> data)
+      : id = data['id'] as String,
+        title = data['title'] as String,
+        image = File(data['image_path'] as String),
+        location = PlaceLocation(
+          latitude: data['lat'] as double,
+          longitude: data['lng'] as double,
+          formattedAddress: data['formatted_address'] as String,
+        );
 }
