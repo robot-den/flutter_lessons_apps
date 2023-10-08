@@ -38,6 +38,8 @@ dependencies:
   get_it: ^7.6.4
   dio: ^5.3.3
   logger: ^2.0.2+1
+  flutter_riverpod: ^2.4.3
+  shared_preferences: ^2.2.1
 
 dev_dependencies:
   flutter_test:

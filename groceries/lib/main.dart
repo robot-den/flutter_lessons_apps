@@ -1,7 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
 import 'package:groceries/features/middlewares/dio_logger_interceptor.dart';
+import 'package:groceries/repositories/auth/auth_repository.dart';
 import 'package:logger/logger.dart';
 
 import 'package:groceries/grocery_app.dart';
@@ -26,6 +28,11 @@ void main() {
   GetIt.I.registerSingleton<AbstractGroceriesRepository>(
     LocalGroceriesRepository(dio: dio),
   );
+  GetIt.I.registerSingleton<AuthRepository>(
+    AuthRepository(dio: dio),
+  );
 
-  runApp(const GroceryApp());
+  runApp(const ProviderScope(
+    child: GroceryApp(),
+  ));
 }

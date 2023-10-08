@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:groceries/models/models.dart';
 import 'package:groceries/repositories/grocery/abstract_groceries_repository.dart';
+import 'package:groceries/repositories/auth/auth_repository.dart';
 import 'package:groceries/secrets.dart';
 
 class LocalGroceriesRepository implements AbstractGroceriesRepository {
@@ -38,7 +39,7 @@ class LocalGroceriesRepository implements AbstractGroceriesRepository {
   @override
   Future<List<Grocery>> groceries() async {
     final response = await dio.get(
-      '$dbUrl/groceries.json',
+      '$dbUrl/groceries.json?auth=$localToken',
       options: Options(
         headers: {
           'Content-Type': Headers.jsonContentType,
@@ -75,7 +76,7 @@ class LocalGroceriesRepository implements AbstractGroceriesRepository {
   @override
   Future<void> saveGrocery(Grocery grocery) async {
     final response = await dio.post(
-      '$dbUrl/groceries.json',
+      '$dbUrl/groceries.json?auth=$localToken',
       data: json.encode({
         'name': grocery.name,
         'quantity': grocery.quantity,
@@ -101,7 +102,8 @@ class LocalGroceriesRepository implements AbstractGroceriesRepository {
     _localGroceries.remove(grocery);
 
     try {
-      final response = await dio.delete('$dbUrl/groceries/${grocery.id}.json');
+      final response = await dio
+          .delete('$dbUrl/groceries/${grocery.id}.json?auth=$localToken');
       return response.statusCode == 200;
     } catch (e) {
       return false;
