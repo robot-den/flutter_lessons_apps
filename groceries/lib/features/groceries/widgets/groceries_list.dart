@@ -25,7 +25,7 @@ class GroceriesList extends StatelessWidget {
           background: Container(
             color: Colors.red,
             child: const Padding(
-              padding: const EdgeInsets.only(right: 16),
+              padding: EdgeInsets.only(right: 16),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
